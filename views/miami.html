@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeryInstantGrams</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Very Instant Grams!</h1>
+    <div id="image-list"></div>
+    <form id="add-image-form">
+        <input type="text" id="image-url" placeholder="Enter image URL..." required>
+        <button type="submit">Add Image</button>
+    </form>
+
+    <script>
+        const imageList = document.getElementById('image-list');
+        const addImageForm = document.getElementById('add-image-form');
+        const imageUrlInput = document.getElementById('image-url');
+
+        // Fetch and display images
+        async function fetchImages() {
+            try {
+                const response = await fetch('/v-insta-g/images');
+                const images = await response.json();
+                imageList.innerHTML = ''; // Clear the list
+                images.forEach(image => {
+                    const img = document.createElement('img');
+                    img.src = image.url;
+                    img.alt = 'Image';
+                    imageList.appendChild(img);
+                });
+            } catch (error) {
+                console.error('Error fetching images:', error);
+            }
+        }
+
+        // Add a new image
+        addImageForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const url = imageUrlInput.value.trim();
+            if (!url) return;
+
+            try {
+                const response = await fetch('/v-insta-g/images', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url }),
+                });
+
+                if (response.ok) {
+                    imageUrlInput.value = ''; // Clear the input
+                    fetchImages(); // Refresh the image list
+                } else {
+                    const errorData = await response.json();
+                    alert(`Error: ${errorData.error}`);
+                }
+            } catch (error) {
+                console.error('Error adding image:', error);
+            }
+        });
+
+        // Initial fetch
+        fetchImages();
+    </script>
+</body>
+</html>
