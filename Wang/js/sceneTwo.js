@@ -16,7 +16,7 @@ var SceneTwo = new Phaser.Class({
         this.hsv = Phaser.Display.Color.HSVColorWheel();
         this.add.image(620,100,"title").setScale(.75);
         //title text
-        this.title = this.add.text(200 ,100 ,'W A N G', { font: '200px Arial Black', fill: '#fff' });
+        this.title = this.add.text(200 ,100 ,'K I N G', { font: '200px Arial Black', fill: '#fff' });
         this.title.setStroke('#abc', 16);
         this.title.setShadow(2, 2, "#333333", 2, true, true);
         //startbutton
@@ -28,7 +28,7 @@ var SceneTwo = new Phaser.Class({
         this.start.on('pointerover', () => { this.start.setStroke('#555', 20); this.honk.play()});
         this.start.on('pointerout', () => { this.start.setStroke('#000', 16)});
         this.start.on('pointerdown', () => {this.scene.start('SceneMain')});
-        const set = this.add.text(700, 350 , 'useless', {font: '100px Arial Black', fill:'#fff'});
+        const set = this.add.text(700, 350 , '(in chinese)', {font: '100px Arial Black', fill:'#fff'});
     },
     update: function() {
         
